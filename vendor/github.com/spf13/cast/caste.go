@@ -453,7 +453,6 @@ func ToBoolSliceE(i interface{}) ([]bool, error) {
 	}
 }
 
-
 // ToStringSliceE casts an empty interface to a []string.
 func ToStringSliceE(i interface{}) ([]string, error) {
 	jww.TRACE.Println("ToStringSliceE called on type:", reflect.TypeOf(i))
