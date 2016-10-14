@@ -17,11 +17,11 @@ release:
 deploy:
   provider: releases
   api_key: "c3595229a48e0f7df91f2a570bd1fe57da628009"
-  file: "goxld"
-  - release/goxld-linux-amd64
-  - release/goxld-linux-386
-  - release/goxld-windows-amd64
-  - release/goxld-windows-386
+  file:
+    - release/goxld-linux-amd64
+    - release/goxld-linux-386
+    - release/goxld-windows-amd64
+    - release/goxld-windows-386
   skip_cleanup: true
   on:
     repo: wianvos/goxld
