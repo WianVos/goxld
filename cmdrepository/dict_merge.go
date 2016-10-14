@@ -147,19 +147,6 @@ func mergeRestrictions(a, b interface{}) []string {
 	return newRestrict
 }
 
-// func toSlice(t interface{}) []string {
-// 	var n []string
-// 	switch reflect.TypeOf(t).Kind() {
-// 	case reflect.Slice:
-// 		s := reflect.ValueOf(t)
-//
-// 		for i := 0; i < s.Len(); i++ {
-// 			n = append(n, (s.Index(i)))
-// 		}
-// 	}
-// 	return n
-// }
-
 func mergeEntries(a, b map[string]interface{}, i bool) (map[string]interface{}, map[string]conflict) {
 
 	newDict := make(map[string]interface{})
@@ -195,6 +182,7 @@ func mergeEntries(a, b map[string]interface{}, i bool) (map[string]interface{}, 
 	return newDict, conflicts
 }
 
+//valDiff
 func valDiff(l, s map[string]interface{}) []string {
 	var vd []string
 	mut := mutualKeys(l, s)
