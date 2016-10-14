@@ -1,0 +1,28 @@
+language: go
+
+.PHONY: release
+
+matrix:
+  include:
+    - go: 1.7
+    # NOTE: no tip, see https://github.com/travis-ci/gimme/issues/38
+
+release:
+  mkdir -p release
+  GOOS=linux GOARCH=amd64 go build -o release/goxld-linux-amd64 $(package)
+  GOOS=linux GOARCH=386 go build -o release/goxld-linux-386 $(package)
+  GOOS=windows GOARCH=amd64 go build -o release/goxld-windows-amd64 $(package)
+  GOOS=windows GOARCH=386 go build -o release/goxld-windows-386 $(package)
+
+deploy:
+  provider: releases
+  api_key: "c3595229a48e0f7df91f2a570bd1fe57da628009"
+  file: "goxld"
+  - release/goxld-linux-amd64
+  - release/goxld-linux-386
+  - release/goxld-windows-amd64
+  - release/goxld-windows-386
+  skip_cleanup: true
+  on:
+    repo: wianvos/goxld
+    tags: true
