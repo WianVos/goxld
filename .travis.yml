@@ -8,8 +8,9 @@ matrix:
 
 
 before_install:
- 
+
  - go get github.com/tools/godep
+ - go get github.com/wianvos/goxld
 
 install:
  - godep restore
