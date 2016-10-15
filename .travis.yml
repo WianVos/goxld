@@ -6,6 +6,15 @@ matrix:
     - go: 1.7
     # NOTE: no tip, see https://github.com/travis-ci/gimme/issues/38
 
+
+before_install:
+ - go get github.com/wianvos/goxld
+ - go get github.com/wianvos/xld
+ - go get github.com/tools/godep
+
+install:
+ - godep restore
+
 release:
   mkdir -p release
   GOOS=linux GOARCH=amd64 go build -o release/goxld-linux-amd64 $(package)
