@@ -21,7 +21,7 @@ release:
 
 deploy:
   provider: releases
-  api_key: "0a9159a6e341578ccfcc08b7bfcc0a93c0daafe7"
+  api_key: "7c91158bbea83465eda365e9f40ad4fcdf97333f"
   file:
     - "release/goxld-linux-amd64"
     - "release/goxld-linux-386"
@@ -30,4 +30,3 @@ deploy:
   skip_cleanup: true
   on:
     repo: WianVos/goxld
-    tags: true
