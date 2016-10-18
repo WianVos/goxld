@@ -3,6 +3,7 @@ matrix:
   include:
   - go: 1.7
 
+.PHONEY: release
 release:
   mkdir -p release
   mkdir -p release/goxld-linux-amd64
