@@ -21,6 +21,7 @@ func GetConfig() *xld.Config {
 
 }
 
+//RenderJSON function to render output as json
 func RenderJSON(l interface{}) string {
 
 	b, err := json.MarshalIndent(l, "", " ")
