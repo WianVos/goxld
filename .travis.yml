@@ -8,8 +8,8 @@ matrix:
 release:
   mkdir -p release
   GOOS=linux GOARCH=amd64 go build -o release/myproject-linux-amd64 $(package)
-	GOOS=linux GOARCH=386 go build -o release/myproject-linux-386 $(package)
-	GOOS=linux GOARCH=arm go build -o release/myproject-linux-arm $(package)
+  GOOS=linux GOARCH=386 go build -o release/myproject-linux-386 $(package)
+  GOOS=linux GOARCH=arm go build -o release/myproject-linux-arm $(package)
 
 deploy:
   provider: releases
