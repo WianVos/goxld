@@ -5,6 +5,10 @@ matrix:
 
 release:
   mkdir -p release
+  mkdir -p release/goxld-linux-amd64
+  mkdir -p release/goxld-linux-386
+  mkdir -p release/goxld-windows-amd64
+  mkdir -p release/goxld-windows-386
   GOOS=linux GOARCH=amd64 go build -o release/goxld-linux-amd64/goxld
   GOOS=linux GOARCH=386 go build -o release/goxld-linux-386/goxld
   GOOS=windows GOARCH=amd64 go build -o release/goxld-windows-amd64/goxld
