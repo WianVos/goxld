@@ -16,7 +16,8 @@ deploy:
   file:
     - release/goxld-linux-amd64
     - release/goxld-linux-386
-    - release/goxld-linux-arm
+    - release/goxld-windows-amd64
+    - release/goxld-windows-386
   skip_cleanup: true
   on:
     repo: WianVos/goxld
