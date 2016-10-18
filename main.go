@@ -42,7 +42,7 @@ func init() {
 	goxld.PersistentFlags().StringVarP(&Context, "context", "c", "/xl-Deploy", "XL-Deploy context")
 	goxld.PersistentFlags().StringVarP(&User, "user", "u", "", "XL-Deploy username")
 	goxld.PersistentFlags().StringVarP(&Password, "password", "p", "", "XL-Deploy password")
-	goxld.PersistentFlags().StringVarP(&Port, "port", "P", "5516", "portnumber to reach XL-Deploy on")
+	goxld.PersistentFlags().StringVarP(&Port, "port", "P", "4516", "portnumber to reach XL-Deploy on")
 	goxld.PersistentFlags().StringVarP(&Scheme, "scheme", "s", "http", "http scheme to user")
 	viper.BindPFlag("port", goxld.PersistentFlags().Lookup("port"))
 	viper.BindPFlag("host", goxld.PersistentFlags().Lookup("host"))
