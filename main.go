@@ -18,9 +18,9 @@ import (
 
 	//external libraries
 
+	"github.com/WianVos/goxld/cmdrepository"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/wianvos/goxld/cmdrepository"
 )
 
 // Config environmental variables.

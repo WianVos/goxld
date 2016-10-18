@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/wianvos/goxld",
+	"ImportPath": "github.com/WianVos/goxld",
 	"GoVersion": "go1.7",
 	"GodepVersion": "v74",
 	"Deps": [
@@ -112,7 +112,7 @@
 			"Rev": "2f6a41490bc86fa9a8fb2fc03526a5795e904a17"
 		},
 		{
-			"ImportPath": "github.com/wianvos/xld",
+			"ImportPath": "github.com/WianVos/xld",
 			"Rev": "master"
 		},
 		{

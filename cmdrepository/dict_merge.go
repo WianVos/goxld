@@ -5,9 +5,9 @@ import (
 	"os"
 	"time"
 
+	"github.com/WianVos/goxld/utils"
+	"github.com/WianVos/xld"
 	"github.com/spf13/cobra"
-	"github.com/wianvos/goxld/utils"
-	"github.com/wianvos/xld"
 )
 
 var dmlistLong = `Compare two dictionaries

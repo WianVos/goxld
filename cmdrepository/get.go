@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/WianVos/goxld/utils"
 	"github.com/spf13/cobra"
-	"github.com/wianvos/goxld/utils"
 )
 
 var glistLong = `Return a list of templates in the system

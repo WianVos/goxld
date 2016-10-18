@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
+	"github.com/WianVos/xld"
 	"github.com/spf13/viper"
-	"github.com/wianvos/xld"
 )
 
 func GetConfig() *xld.Config {
