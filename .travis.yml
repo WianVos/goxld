@@ -7,9 +7,9 @@ matrix:
     # NOTE: no tip, see https://github.com/travis-ci/gimme/issues/38
 
 
-before_install:
-
- - go get github.com/tools/godep
+# before_install:
+#
+#  # - go get github.com/tools/godep
 
 
 release:
