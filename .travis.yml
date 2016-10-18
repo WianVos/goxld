@@ -21,7 +21,7 @@ release:
 
 deploy:
   provider: releases
-  api_key: "7c91158bbea83465eda365e9f40ad4fcdf97333f"
+  api_key: "9ec94e63c2876fdf6fc8a677cf1c4de893ad862b"
   file:
     - "release/goxld-linux-amd64"
     - "release/goxld-linux-386"
