@@ -18,6 +18,8 @@ import (
 
 	//external libraries
 
+	"fmt"
+
 	"github.com/WianVos/goxld/cmdrepository"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -42,7 +44,7 @@ func init() {
 	goxld.PersistentFlags().StringVarP(&Context, "context", "c", "/xl-Deploy", "XL-Deploy context")
 	goxld.PersistentFlags().StringVarP(&User, "user", "u", "", "XL-Deploy username")
 	goxld.PersistentFlags().StringVarP(&Password, "password", "p", "", "XL-Deploy password")
-	goxld.PersistentFlags().StringVarP(&Port, "port", "P", "4516", "portnumber to reach XL-Deploy on")
+	goxld.PersistentFlags().StringVarP(&Port, "port", "P", "4516", "portnumber to reach XL-Deploymk on")
 	goxld.PersistentFlags().StringVarP(&Scheme, "scheme", "s", "http", "http scheme to user")
 	viper.BindPFlag("port", goxld.PersistentFlags().Lookup("port"))
 	viper.BindPFlag("host", goxld.PersistentFlags().Lookup("host"))
@@ -70,9 +72,9 @@ func initializeConfig() {
 	viper.AddConfigPath("$HOME/.goxld")
 	viper.AddConfigPath(".")
 	// Handle errors reading the config file
-	viper.ReadInConfig()
-	//if err != nil {
-	//	panic(fmt.Errorf("Fatal error config file: %s \n", err))
-	//}
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	}
 
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+//GetConfig prepares a xld.Config object
 func GetConfig() *xld.Config {
 
 	return &xld.Config{
@@ -22,6 +23,7 @@ func GetConfig() *xld.Config {
 }
 
 //RenderJSON function to render output as json
+// returns a string object with json formated output
 func RenderJSON(l interface{}) string {
 
 	b, err := json.MarshalIndent(l, "", " ")
@@ -33,7 +35,7 @@ func RenderJSON(l interface{}) string {
 	return s
 }
 
-// lets get the output home shall we
+//WriteToFile writes any string output to file
 func WriteToFile(s string, f string) {
 	d1 := []byte(s + "\n")
 	err := ioutil.WriteFile(f, d1, 0644)
@@ -42,6 +44,7 @@ func WriteToFile(s string, f string) {
 	}
 }
 
+//GetClient returns a xld.Client object
 func GetClient() *xld.Client {
 	//get the much needed config for the xlr client
 	config := GetConfig()
