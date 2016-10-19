@@ -20,5 +20,4 @@ deploy:
     - release/goxld-windows-386
   skip_cleanup: true
   on:
-    tags: true
     repo: WianVos/goxld
