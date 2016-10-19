@@ -26,11 +26,23 @@ import (
 )
 
 // Config environmental variables.
+
+//Host holds the address of the xldeploy host to connect to
 var Host string
+
+//Context holds the context root of the xld server
 var Context string
+
+//User to use when authenticating to the xld server
 var User string
+
+//Password to use when authentication to the xld server
 var Password string
+
+//Port the xld server is listening on
 var Port string
+
+//Scheme identifeis the http scheme to use in communication with the xld server
 var Scheme string
 
 var goxld = &cobra.Command{
@@ -64,6 +76,7 @@ func main() {
 //initialize the viper config
 func initializeConfig() {
 	// get input from config files
+
 	// configfile name is goxld
 	viper.SetConfigName("goxld")
 
@@ -71,6 +84,7 @@ func initializeConfig() {
 	viper.AddConfigPath("/etc/goxld/")
 	viper.AddConfigPath("$HOME/.goxld")
 	viper.AddConfigPath(".")
+
 	// Handle errors reading the config file
 	err := viper.ReadInConfig()
 	if err != nil {
