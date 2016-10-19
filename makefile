@@ -12,6 +12,6 @@ release:
 	GOOS=linux GOARCH=386 go build -o release/goxld-linux-386 $(package)
 	GOOS=windows GOARCH=amd64 go build -o release/goxld-windows-amd64 $(package)
 	GOOS=windows GOARCH=386 go build -o release/goxld-windows-386 $(package)
-	GOOS=osx GOARCH=amd64 go build -o release/goxld-osx-amd64 $(package)
+	GOOS=darwin GOARCH=amd64 go build -o release/goxld-osx-amd64 $(package)
 test:
 	go test -v
