@@ -8,16 +8,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var glistLong = `Return a list of templates in the system
+var gGetLong = `Return a ci
 Example:
-  repository get /Environment/Dictionary1
+  repo get /Environment/Dictionary1
 `
 
 func addGet() {
 	cmd := &cobra.Command{
 		Use:   "get",
 		Short: "get a certain ci",
-		Long:  glistLong,
+		Long:  gGetLong,
 		Run:   runGet,
 	}
 
