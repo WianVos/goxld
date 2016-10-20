@@ -20,6 +20,7 @@ import (
 
 	"fmt"
 
+	"github.com/WianVos/goxld/cmdconfig"
 	"github.com/WianVos/goxld/cmdrepository"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -51,12 +52,13 @@ var goxld = &cobra.Command{
 }
 
 func init() {
+	goxld.AddCommand(cmdconfig.GetCommands())
 	goxld.AddCommand(cmdrepository.GetCommands())
 	goxld.PersistentFlags().StringVarP(&Host, "host", "x", "blah", "XL-Deploy hostname")
-	goxld.PersistentFlags().StringVarP(&Context, "context", "c", "/xl-Deploy", "XL-Deploy context")
+	goxld.PersistentFlags().StringVarP(&Context, "context", "c", "/deployit", "XL-Deploy context")
 	goxld.PersistentFlags().StringVarP(&User, "user", "u", "", "XL-Deploy username")
 	goxld.PersistentFlags().StringVarP(&Password, "password", "p", "", "XL-Deploy password")
-	goxld.PersistentFlags().StringVarP(&Port, "port", "P", "4516", "portnumber to reach XL-Deploymk on")
+	goxld.PersistentFlags().StringVarP(&Port, "port", "P", "80", "portnumber to reach XL-Deploymk on")
 	goxld.PersistentFlags().StringVarP(&Scheme, "scheme", "s", "http", "http scheme to user")
 	viper.BindPFlag("port", goxld.PersistentFlags().Lookup("port"))
 	viper.BindPFlag("host", goxld.PersistentFlags().Lookup("host"))

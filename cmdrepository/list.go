@@ -34,9 +34,21 @@ func addList() {
 
 func runList(cmd *cobra.Command, args []string) {
 
+	var entryPoint string
+
+	if len(args) < 1 {
+		entryPoint = ""
+	} else {
+		entryPoint = args[0]
+	}
+
+	if string(entryPoint[0]) == "/" {
+		entryPoint = string(entryPoint[1:len(entryPoint)])
+	}
+
 	client := utils.GetClient()
 
-	cis, err := client.Repository.ListCis(args[0])
+	cis, err := client.Repository.ListCis(entryPoint)
 
 	if err != nil {
 		panic(fmt.Errorf("Fatal error repo list: %s \n", err))
