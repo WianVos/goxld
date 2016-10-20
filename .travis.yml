@@ -21,5 +21,4 @@ deploy:
     - release/goxld-osx-amd64
   skip_cleanup: true
   on:
-    tags: true
     repo: WianVos/goxld
