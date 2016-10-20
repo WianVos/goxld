@@ -90,6 +90,7 @@ func initializeConfig() {
 	// Handle errors reading the config file
 	err := viper.ReadInConfig()
 	if err != nil {
+		viper.Debug()
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
 
