@@ -2,6 +2,8 @@ package utils
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"io/ioutil"
 
 	"github.com/WianVos/xld"
@@ -54,4 +56,37 @@ func GetClient() *xld.Client {
 
 	return client
 
+}
+
+//HandleErr handles an error by panicing like a little bitch
+func HandleErr(err error) {
+	if err != nil {
+		panic(fmt.Errorf("Fatal error dict merge: %s \n", err))
+	}
+}
+
+//GetCi retrieve a CI form xld and check it for type
+func GetCi(n, t string) xld.Ci {
+
+	var err error
+
+	client := GetClient()
+	c, err := client.Repository.GetCi(n)
+
+	HandleErr(err)
+
+	// check to see if the type is what we expect
+	if c.Type != n {
+		HandleErr(errors.New("requested ci is not of the correct type"))
+	}
+
+	return c
+}
+
+//NewCiObject returns a
+func NewCiObject(n, t string, p map[string]interface{}) xld.Ci {
+	c := GetClient()
+	nc, err := c.Repository.CreateCi(n, t, p)
+	HandleErr(err)
+	return nc
 }

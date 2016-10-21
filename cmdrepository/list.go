@@ -40,10 +40,9 @@ func runList(cmd *cobra.Command, args []string) {
 		entryPoint = ""
 	} else {
 		entryPoint = args[0]
-	}
-
-	if string(entryPoint[0]) == "/" {
-		entryPoint = string(entryPoint[1:len(entryPoint)])
+		if string(entryPoint[0]) == "/" {
+			entryPoint = string(entryPoint[1:len(entryPoint)])
+		}
 	}
 
 	client := utils.GetClient()

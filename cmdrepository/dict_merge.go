@@ -22,6 +22,7 @@ type conflict struct {
 
 var flagPersist bool
 var flagDictID string
+var flagEnvID string
 
 func addDictMerge() {
 	cmd := &cobra.Command{
@@ -35,6 +36,7 @@ func addDictMerge() {
 	cmd.Flags().StringVarP(&flagOutFile, "outfile", "o", "", "File to use for output")
 	cmd.Flags().BoolVarP(&flagPersist, "persist", "", false, "persist the merged dictionary to xld")
 	cmd.Flags().StringVarP(&flagDictID, "id", "", "", "ID of the new dictionary")
+	cmd.Flags().StringVarP(&flagEnvID, "env", "", "", "ID of the environment to merge dictionaries for (will merge all dictionaries for that environment into one)")
 
 	relCmd.AddCommand(cmd)
 
@@ -42,12 +44,19 @@ func addDictMerge() {
 
 func runDictMerge(cmd *cobra.Command, args []string) {
 
-	if len(args) > 2 {
-		fmt.Println("too many arguments")
-		os.Exit(2)
-	}
+	var ci xld.Ci
 
-	ci := mergeDictionary(args[0], args[1], flagDictID)
+	if flagEnvID != "" {
+		ci = runDictMergeEnv(flagEnvID)
+	} else {
+
+		if len(args) > 2 {
+			fmt.Println("too many arguments")
+			os.Exit(2)
+		}
+
+		ci = mergeDictionary(args[0], args[1], flagDictID)
+	}
 
 	output := utils.RenderJSON(ci)
 
@@ -60,16 +69,59 @@ func runDictMerge(cmd *cobra.Command, args []string) {
 	if flagPersist == true {
 		client := utils.GetClient()
 		client.Repository.CreateCi(ci.ID, "udm.Dictionary", ci.Properties)
+		fmt.Println("dictionary persisted")
 	}
 }
 
-//func mergeDictionary(s, m string) (xld.Ci, error) {
+func runDictMergeEnv(i string) xld.Ci {
+
+	newProps := make(map[string]interface{})
+	// var cis xld.Cis
+
+	client := utils.GetClient()
+	envCi, err := client.Repository.GetCi(i)
+	if err != nil {
+		panic(fmt.Errorf("Fatal error dict merge: %s \n", err))
+	}
+
+	dictionaries := envCi.Properties["dictionaries"].([]interface{})
+
+	s, dictionaries := dictionaries[0].(string), dictionaries[1:]
+
+	fmt.Println(s)
+	fmt.Println(dictionaries)
+
+	newname := i + "mergeDict"
+
+	newProps["entries"] = map[string]string{}
+	newProps["encryptedEntries"] = map[string]string{}
+	newProps["restrictToApplications"] = []string{}
+	newProps["restrictToContainers"] = []string{}
+
+	ci, err := client.Repository.NewCi(newname, "udm.Dictionary", newProps)
+
+	if err != nil {
+		panic(fmt.Errorf("Fatal error dict merge: %s \n", err))
+	}
+
+	for _, d := range dictionaries {
+		fmt.Println(d)
+	}
+	return ci
+}
+
+//mergeDictionary
+// takes care or the mergin of two dictionaries
+// s represents the source dictionary
+// m represents the merge candidate
+// i is the new dict name
+
 func mergeDictionary(s, m, i string) xld.Ci {
 
 	var newName string
 	client := utils.GetClient()
 
-	// get the dictionary
+	// get the source dictionary
 	source, err := client.Repository.GetCi(s)
 	if err != nil {
 		fmt.Println(err)
@@ -261,3 +313,42 @@ func mapContains(m []string, key string) bool {
 	}
 	return false
 }
+
+// func (d *xld.Ci) dictMerge(m xld.Ci) {
+//
+// 	a := getDictEntries(d, false)
+// 	b := getDictEntries(m, false)
+// 	ae := getDictEntries(d, true)
+// 	be := getDictEntries(m, true)
+//
+// 	mu, conflicts := mergeEntries(a, b, true)
+// 	me, conflictsEncrypted := mergeEntries(ae, be, true)
+//
+// 	//add merge info to dictionary
+// 	mu["merge_date"] = time.Now()
+// 	mu["merge_base"] = source.ID
+// 	mu["merge_target"] = merge.ID
+// 	mu["merge_conflicts"] = conflictsEncrypted
+//
+// 	// add merge conflicts to the dictionary in a non intrusive way
+// 	for k, v := range conflicts {
+// 		mu[k] = v.original
+// 		mu[k+"_cnflct"] = v.conflict
+// 	}
+//
+// 	if val, ok := d.Properties["entries"]; ok != false {
+// 		d.Properties["entries"] = make(map[string]interface{})
+// 	}
+//
+// 	if val, ok := d.Properties["encryptedEntries"]; ok != false {
+// 		d.Properties["encryptedEntries"] = make(map[string]interface{})
+// 	}
+//
+// 	d.Properties = make(map[string]interface{})
+//
+// 	d.Properties["entries"] = mu
+// 	d.Properties["encryptedEntries"] = me
+// 	d.Properties["restrictToApplications"] = mergeRestrictions(d.Properties["restrictToApplications"], m.Properties["restrictToApplications"])
+// 	d.Properties["restrictToContainers"] = mergeRestrictions(d.Properties["restrictToContainers"], m.Properties["restrictToContainers"])
+//
+// }
