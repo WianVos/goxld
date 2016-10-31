@@ -18,11 +18,13 @@ const (
 type RepositoryService interface {
 	//GetDictionary(n string) (DictionaryCI, error)
 	//GetGeneric(n string)
+	SaveCi(c Ci) (Ci, error)
 	CreateCi(n string, t string, p map[string]interface{}) (Ci, error)
 	NewCi(n string, t string, p map[string]interface{}) (Ci, error)
 	GetCi(n string) (Ci, error)
 	CiExists(n string) (bool, error)
 	ListCis(n string) (CiList, error)
+	TranslateCiProperties(n, t string, p map[string]interface{}) (map[string]interface{}, error)
 }
 
 //RepositoryServiceOp holds the communication service for Repositorys
@@ -68,6 +70,11 @@ func (r RepositoryServiceOp) GetCi(n string) (Ci, error) {
 
 	var err error
 	var c Ci
+
+	if ok, _ := r.CiExists(n); ok != true {
+		s := fmt.Sprintf("CI: %s does not exists", n)
+		return c, errors.New(s)
+	}
 
 	url := repositoryBasePath + "/" + "ci" + "/" + n
 
@@ -130,7 +137,7 @@ func (r RepositoryServiceOp) ListCis(n string) (CiList, error) {
 	return ciList, nil
 }
 
-//NewCI creates a CI object
+//NewCi creates a CI object
 // n: name
 // t: type
 // p: properties
@@ -192,14 +199,46 @@ func (r RepositoryServiceOp) NewCi(n string, t string, p map[string]interface{})
 // p: properties
 func (r RepositoryServiceOp) CreateCi(n string, t string, p map[string]interface{}) (Ci, error) {
 
-	ci := make(map[string]interface{})
 	var dc Ci
 	var verb string
+
+	ci, err := r.TranslateCiProperties(n, t, p)
+	if err != nil {
+		return dc, err
+	}
+	//marshall the json and send it
+	url := repositoryBasePath + "/ci/" + n
+
+	exists, _ := r.CiExists(n)
+
+	if exists == true {
+		verb = "PUT"
+	} else {
+		verb = "POST"
+	}
+
+	req, err := r.client.NewRequest(url, verb, ci)
+	if err != nil {
+		return dc, err
+	}
+
+	_, err = r.client.Do(req, &dc)
+	if err != nil {
+		return dc, err
+	}
+
+	return dc, nil
+
+}
+
+//TranslateCiProperties returns an object that can be encoded in XL-Deploy understandable json
+func (r RepositoryServiceOp) TranslateCiProperties(n, t string, p map[string]interface{}) (map[string]interface{}, error) {
+	ci := make(map[string]interface{})
 
 	// validate the id: it needs to contain either Environments, Infrastructure, Applications
 	_, err := validateID(n)
 	if err != nil {
-		return dc, err
+		return make(map[string]interface{}), err
 	}
 
 	ci["id"] = n
@@ -239,30 +278,7 @@ func (r RepositoryServiceOp) CreateCi(n string, t string, p map[string]interface
 		}
 
 	}
-
-	//marshall the json and send it
-	url := repositoryBasePath + "/ci/" + n
-
-	exists, _ := r.CiExists(n)
-
-	if exists == true {
-		verb = "PUT"
-	} else {
-		verb = "POST"
-	}
-
-	req, err := r.client.NewRequest(url, verb, ci)
-	if err != nil {
-		return dc, err
-	}
-
-	_, err = r.client.Do(req, &dc)
-	if err != nil {
-		return dc, err
-	}
-
-	return dc, nil
-
+	return ci, nil
 }
 
 //CiExists checks if a CI exists
@@ -312,4 +328,9 @@ func validateID(i string) (bool, error) {
 	}
 
 	return false, errors.New("invalid ci id")
+}
+
+//SaveCi : Saves a ci object to the xld repository
+func (r RepositoryServiceOp) SaveCi(c Ci) (Ci, error) {
+	return r.CreateCi(c.ID, c.Type, c.Properties)
 }

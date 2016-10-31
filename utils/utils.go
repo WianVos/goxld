@@ -76,17 +76,27 @@ func GetCi(n, t string) xld.Ci {
 	HandleErr(err)
 
 	// check to see if the type is what we expect
-	if c.Type != n {
+	if c.Type != t {
 		HandleErr(errors.New("requested ci is not of the correct type"))
 	}
 
 	return c
 }
 
-//NewCiObject returns a
+//NewCiObject returns a ci object
 func NewCiObject(n, t string, p map[string]interface{}) xld.Ci {
 	c := GetClient()
 	nc, err := c.Repository.CreateCi(n, t, p)
 	HandleErr(err)
+
 	return nc
+}
+
+//VerifyType checks if a ci is a certain type
+func VerifyType(c xld.Ci, t string) bool {
+	if c.Type == t {
+		return true
+	}
+
+	return false
 }
