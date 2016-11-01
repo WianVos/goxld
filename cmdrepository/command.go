@@ -17,6 +17,7 @@ func GetCommands() *cobra.Command {
 
 	//collect the commands in the package
 	addGet()
+	addCreate()
 	addDictMerge()
 	addList()
 	return relCmd

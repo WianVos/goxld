@@ -2,7 +2,6 @@ package cmdrepository
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/WianVos/goxld/utils"
 	"github.com/spf13/cobra"
@@ -29,12 +28,12 @@ func addGet() {
 }
 
 func runGet(cmd *cobra.Command, args []string) {
+
 	client := utils.GetClient()
+
 	ci, err := client.Repository.GetCi(args[0])
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(2)
-	}
+	utils.HandleErr(err)
+
 	output := utils.RenderJSON(ci)
 
 	if flagOutFile != "" {

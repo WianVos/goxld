@@ -46,6 +46,18 @@ func WriteToFile(s string, f string) {
 	}
 }
 
+//ReadFromFile reads the contents of a file to a byte array
+func ReadFromFile(f string) []byte {
+	contents, err := ioutil.ReadFile(f)
+	HandleErr(err)
+	return contents
+}
+
+//ReadFromFileToString reads contents from file and returns a string
+func ReadFromFileToString(f string) string {
+	return string(ReadFromFile(f))
+}
+
 //GetClient returns a xld.Client object
 func GetClient() *xld.Client {
 	//get the much needed config for the xlr client
@@ -61,7 +73,7 @@ func GetClient() *xld.Client {
 //HandleErr handles an error by panicing like a little bitch
 func HandleErr(err error) {
 	if err != nil {
-		panic(fmt.Errorf("Fatal error dict merge: %s \n", err))
+		panic(fmt.Errorf("Goxld fatal error : %s \n", err))
 	}
 }
 

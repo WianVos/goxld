@@ -178,10 +178,13 @@ func (r RepositoryServiceOp) NewCi(n string, t string, p map[string]interface{})
 			}
 		case map[string]interface{}, map[string]string:
 			if propType == "MAP_STRING_STRING" {
+				fmt.Println("map_string_string")
 				ci.Properties[k] = v
 			}
 		case []string:
 			if propType == "SET_OF_STRING" || propType == "SET_OF_CI" {
+				fmt.Println("Set_of_string")
+
 				ci.Properties[k] = v
 			}
 		default:
@@ -332,5 +335,8 @@ func validateID(i string) (bool, error) {
 
 //SaveCi : Saves a ci object to the xld repository
 func (r RepositoryServiceOp) SaveCi(c Ci) (Ci, error) {
+
 	return r.CreateCi(c.ID, c.Type, c.Properties)
 }
+
+//

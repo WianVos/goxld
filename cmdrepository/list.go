@@ -49,9 +49,7 @@ func runList(cmd *cobra.Command, args []string) {
 
 	cis, err := client.Repository.ListCis(entryPoint)
 
-	if err != nil {
-		panic(fmt.Errorf("Fatal error repo list: %s \n", err))
-	}
+	utils.HandleErr(err)
 
 	if flagLongList == true {
 		runListLong(cis)
@@ -74,10 +72,7 @@ func runListLong(cis xld.CiList) {
 
 		ci, err := client.Repository.GetCi(c.ID)
 
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(2)
-		}
+		utils.HandleErr(err)
 
 		ciCollection = append(ciCollection, ci)
 	}
