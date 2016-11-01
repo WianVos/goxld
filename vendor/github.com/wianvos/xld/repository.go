@@ -166,28 +166,36 @@ func (r RepositoryServiceOp) NewCi(n string, t string, p map[string]interface{})
 		switch v := v.(type) {
 		case string:
 			if propType == "STRING" || propType == "CI" {
+				fmt.Println("string")
+
 				ci.Properties[k] = v
 			}
 		case bool:
 			if propType == "BOOLEAN" {
+				fmt.Println("bool")
+
 				ci.Properties[k] = v
 			}
-		case int:
+		case int, float32, float64:
 			if propType == "INTEGER" {
-				ci.Properties[k] = int(v)
+				fmt.Println("Int")
+
+				ci.Properties[k] = v.(float64)
 			}
 		case map[string]interface{}, map[string]string:
 			if propType == "MAP_STRING_STRING" {
 				fmt.Println("map_string_string")
 				ci.Properties[k] = v
 			}
-		case []string:
+		case []string, []interface{}:
+			fmt.Println(propType)
 			if propType == "SET_OF_STRING" || propType == "SET_OF_CI" {
 				fmt.Println("Set_of_string")
 
 				ci.Properties[k] = v
 			}
 		default:
+			fmt.Println(propType)
 			fmt.Printf("unexpected type %T\n", v) // %T prints whatever type t has
 		}
 
@@ -266,15 +274,15 @@ func (r RepositoryServiceOp) TranslateCiProperties(n, t string, p map[string]int
 			if propType == "BOOLEAN" {
 				ci[k] = v
 			}
-		case int:
+		case int, float32, float64:
 			if propType == "INTEGER" {
-				ci[k] = int(v)
+				ci[k] = v.(int)
 			}
 		case map[string]interface{}, map[string]string:
 			if propType == "MAP_STRING_STRING" {
 				ci[k] = v
 			}
-		case []string:
+		case []string, []interface{}:
 			if propType == "SET_OF_STRING" || propType == "SET_OF_CI" {
 				ci[k] = v
 			}

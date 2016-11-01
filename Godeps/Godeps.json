@@ -113,7 +113,7 @@
 		},
 		{
 			"ImportPath": "github.com/WianVos/xld",
-			"Rev": "f9a74eab95cb735387ffc0be3b988c498c9b7979"
+			"Rev": "05f9a6b2935824b6f61e04c35f8005c76ad83d13"
 		},
 		{
 			"ImportPath": "golang.org/x/crypto/curve25519",
