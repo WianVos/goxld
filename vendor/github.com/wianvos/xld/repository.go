@@ -165,37 +165,30 @@ func (r RepositoryServiceOp) NewCi(n string, t string, p map[string]interface{})
 		propType := metaData[k]
 		switch v := v.(type) {
 		case string:
-			if propType == "STRING" || propType == "CI" {
-				fmt.Println("string")
+			if propType == "STRING" || propType == "CI" || propType == "ENUM" {
 
 				ci.Properties[k] = v
 			}
 		case bool:
 			if propType == "BOOLEAN" {
-				fmt.Println("bool")
 
 				ci.Properties[k] = v
 			}
 		case int, float32, float64:
 			if propType == "INTEGER" {
-				fmt.Println("Int")
 
-				ci.Properties[k] = v.(float64)
+				ci.Properties[k] = int(v.(int))
 			}
 		case map[string]interface{}, map[string]string:
 			if propType == "MAP_STRING_STRING" {
-				fmt.Println("map_string_string")
 				ci.Properties[k] = v
 			}
 		case []string, []interface{}:
-			fmt.Println(propType)
 			if propType == "SET_OF_STRING" || propType == "SET_OF_CI" {
-				fmt.Println("Set_of_string")
 
 				ci.Properties[k] = v
 			}
 		default:
-			fmt.Println(propType)
 			fmt.Printf("unexpected type %T\n", v) // %T prints whatever type t has
 		}
 
@@ -267,16 +260,24 @@ func (r RepositoryServiceOp) TranslateCiProperties(n, t string, p map[string]int
 		default:
 			fmt.Printf("unexpected type %T\n", v) // %T prints whatever type t has
 		case string:
-			if propType == "STRING" || propType == "CI" {
+			if propType == "STRING" || propType == "CI" || propType == "ENUM" {
 				ci[k] = v
 			}
 		case bool:
 			if propType == "BOOLEAN" {
 				ci[k] = v
 			}
-		case int, float32, float64:
+		case int:
 			if propType == "INTEGER" {
-				ci[k] = v.(int)
+				ci[k] = v
+			}
+		case float32:
+			if propType == "INTEGER" {
+				ci[k] = v
+			}
+		case float64:
+			if propType == "INTEGER" {
+				ci[k] = v
 			}
 		case map[string]interface{}, map[string]string:
 			if propType == "MAP_STRING_STRING" {

@@ -86,7 +86,6 @@ func (c *Client) NewRequest(urlStr string, method string, body interface{}) (*ht
 			return nil, err
 		}
 	}
-
 	req, err := http.NewRequest(method, u.String(), buf)
 	if err != nil {
 		return nil, err
@@ -105,6 +104,8 @@ func (c *Client) NewRequest(urlStr string, method string, body interface{}) (*ht
 func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 
 	resp, err := c.client.Do(req)
+	//fmt.Printf("%+v\n", resp.Body)
+
 	if err != nil {
 		return nil, err
 	}
@@ -116,6 +117,8 @@ func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 	}()
 
 	if err := json.NewDecoder(resp.Body).Decode(v); err != nil {
+		// body, err := ioutil.ReadAll(resp.Body)
+		// fmt.Println(string(body))
 		return nil, err
 	}
 
