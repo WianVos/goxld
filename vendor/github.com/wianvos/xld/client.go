@@ -3,6 +3,7 @@ package xld
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/url"
 )
@@ -123,4 +124,33 @@ func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 	}
 
 	return resp, err
+}
+
+//VerifyConnection verifies that we have a valid connection to xld
+func (c *Client) VerifyConnection() bool {
+
+	rel, err := url.Parse("deployit/server/info")
+	if err != nil {
+		return false
+	}
+
+	u := c.BaseURL.ResolveReference(rel)
+	req, err := http.NewRequest("GET", u.String(), nil)
+	if err != nil {
+		return false
+	}
+
+	req.SetBasicAuth(c.Config.User, c.Config.Password)
+	req.Header.Add("Content-Type", mediaType)
+	req.Header.Add("Accept", "Application/xml")
+	req.Header.Add("User-Agent", c.UserAgent)
+
+	resp, err := c.client.Do(req)
+
+	if resp.StatusCode == 200 && err == nil {
+		fmt.Println("Goxld: Succesfully conntected to XL-Deploy")
+		return true
+	}
+
+	return false
 }

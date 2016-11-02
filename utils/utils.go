@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"os"
 
 	"github.com/WianVos/xld"
 	"github.com/spf13/viper"
@@ -65,7 +66,9 @@ func GetClient() *xld.Client {
 
 	// instantiate the xlr client
 	client := xld.NewClient(config)
-
+	if client.VerifyConnection() == false {
+		HandleErr(errors.New("unable to connect to XL-Deploy"))
+	}
 	return client
 
 }
@@ -73,7 +76,8 @@ func GetClient() *xld.Client {
 //HandleErr handles an error by panicing like a little bitch
 func HandleErr(err error) {
 	if err != nil {
-		panic(fmt.Errorf("Goxld fatal error : %s \n", err))
+		fmt.Printf("Goxld: fatal error : %s \n", err)
+		os.Exit(2)
 	}
 }
 
