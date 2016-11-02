@@ -1,0 +1,11 @@
+{
+ "id": "Infrastructure/testhost3",
+ "type": "overthere.SshHost",
+ "Properties": {
+  "address": "locahost",
+  "connectionType": "SFTP",
+  "os": "UNIX",
+  "port": 22,
+  "username": "locauser"
+ }
+}

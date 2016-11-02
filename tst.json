@@ -1,0 +1,16 @@
+{
+ "id": "Environments/Wian3",
+ "type": "udm.Dictionary",
+ "Properties": {
+  "encryptedEntries": {},
+  "entries": {
+   "bank": "rabo",
+   "super": "expiali",
+   "test": "test"
+  },
+  "restrictToApplications": [],
+  "restrictToContainers": [
+   "Infrastructure/testhost2"
+  ]
+ }
+}
