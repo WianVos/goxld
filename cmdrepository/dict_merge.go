@@ -2,6 +2,7 @@ package cmdrepository
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/WianVos/goxld/utils"
 	"github.com/WianVos/xld"
@@ -58,6 +59,7 @@ func runDictMerge(cmd *cobra.Command, args []string) {
 	// the list of dictionaries to merge should be in args
 	// if --env flag is set get the list of dicts from the environment specified
 	if flagEnvID != "" {
+		flagDictID = flagEnvID + "/" + strings.Replace(flagEnvID, "/", "_", -1)
 		dicts = getDictListFromEnv(flagEnvID)
 	} else {
 		dicts = args
