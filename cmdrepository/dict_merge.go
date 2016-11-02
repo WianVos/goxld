@@ -82,7 +82,6 @@ func runDictMerge(cmd *cobra.Command, args []string) {
 	// loop over the ci collection of ci's
 	for _, c := range cis {
 		newConf, err := mergeDictProperties(&nc, c)
-
 		utils.HandleErr(err)
 		for _, cn := range newConf {
 			conf = append(conf, cn)
@@ -103,6 +102,7 @@ func runDictMerge(cmd *cobra.Command, args []string) {
 		addConflictsToCi(&nc, conf)
 	}
 
+	// checking properties for null fields ..
 	output := utils.RenderJSON(nc)
 
 	if flagOutFile != "" {
