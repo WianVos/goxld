@@ -2,3 +2,4 @@
 *build
 release/goxld*
 goxld
+goxld.json
