@@ -22,6 +22,8 @@ import (
 
 	"github.com/WianVos/goxld/cmdconfig"
 	"github.com/WianVos/goxld/cmdrepository"
+	"github.com/WianVos/goxld/cmdsecurity"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -54,6 +56,7 @@ var goxld = &cobra.Command{
 func init() {
 	goxld.AddCommand(cmdconfig.GetCommands())
 	goxld.AddCommand(cmdrepository.GetCommands())
+	goxld.AddCommand(cmdsecurity.GetUserCommands())
 	goxld.PersistentFlags().StringVarP(&Host, "host", "x", "blah", "XL-Deploy hostname")
 	goxld.PersistentFlags().StringVarP(&Context, "context", "c", "/deployit", "XL-Deploy context")
 	goxld.PersistentFlags().StringVarP(&User, "user", "u", "admin", "XL-Deploy username")
