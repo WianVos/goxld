@@ -3,7 +3,6 @@ package xld
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/url"
 )
@@ -150,7 +149,6 @@ func (c *Client) VerifyConnection() bool {
 	resp, err := c.client.Do(req)
 
 	if resp.StatusCode == 200 && err == nil {
-		fmt.Println("Goxld: Succesfully conntected to XL-Deploy")
 		return true
 	}
 

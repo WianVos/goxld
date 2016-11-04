@@ -1,11 +1,9 @@
 package cmdsecurity
 
 import (
-	"errors"
-	"fmt"
-
 	"github.com/WianVos/goxld/utils"
 	"github.com/spf13/cobra"
+	jww "github.com/spf13/jwalterweatherman"
 )
 
 var writeLong = `add a user in the XL-Deploy repository
@@ -43,15 +41,17 @@ func runUser(cmd *cobra.Command, args []string) {
 
 	_, err := c.Security.CreateUser(username, flagAdmin)
 	if err != nil {
-		utils.HandleErr(errors.New("user add: unable to create user"))
+		jww.DEBUG.Println(err)
+		jww.ERROR.Panicln("user add: unable to create user")
 	}
-
+	jww.FEEDBACK.Printf("user %s added to XL-Deploy \n", username)
 	if flagPassWord != "" {
 		err := c.Security.SetPasswordForUser(username, flagPassWord)
 		if err != nil {
-			fmt.Println(err)
-			utils.HandleErr(errors.New("user add: unable to set password for user"))
+			jww.DEBUG.Println(err)
+			jww.ERROR.Panicln("user add: unable to set password for user")
 		}
 	}
-	fmt.Println("Goxld: user add: user created")
+	jww.FEEDBACK.Printf("password set for user %s \n", username)
+
 }

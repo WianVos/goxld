@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/WianVos/xld"
+	jww "github.com/spf13/jwalterweatherman"
 	"github.com/spf13/viper"
 )
 
@@ -67,8 +68,10 @@ func GetClient() *xld.Client {
 	// instantiate the xlr client
 	client := xld.NewClient(config)
 	if client.VerifyConnection() == false {
-		HandleErr(errors.New("unable to connect to XL-Deploy"))
+		// !HandleErr(errors.New("unable to connect to XL-Deploy"))
+		jww.FATAL.Fatalf("unable to connect XL-Deploy at: %s \n", client.Config.Host)
 	}
+	jww.FEEDBACK.Printf("connected to XL-Deploy at: %s, as %s \n", client.Config.Host, client.Config.User)
 	return client
 
 }

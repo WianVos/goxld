@@ -19,12 +19,14 @@ import (
 	//external libraries
 
 	"fmt"
+	"os"
 
 	"github.com/WianVos/goxld/cmdconfig"
 	"github.com/WianVos/goxld/cmdrepository"
 	"github.com/WianVos/goxld/cmdsecurity"
 
 	"github.com/spf13/cobra"
+	jww "github.com/spf13/jwalterweatherman"
 	"github.com/spf13/viper"
 )
 
@@ -48,9 +50,18 @@ var Port string
 //Scheme identifeis the http scheme to use in communication with the xld server
 var Scheme string
 
+var verbose bool
+var logging bool
+var logFile string
+var verboseLog bool
+var quiet bool
+
 var goxld = &cobra.Command{
 	Use:   "goxld",
 	Short: "goxld provides a command line interface to work with XL-Deploy",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		initializeConfig()
+	},
 }
 
 func init() {
@@ -63,6 +74,9 @@ func init() {
 	goxld.PersistentFlags().StringVarP(&Password, "password", "p", "changeme", "XL-Deploy password")
 	goxld.PersistentFlags().StringVarP(&Port, "port", "P", "80", "portnumber to reach XL-Deploymk on")
 	goxld.PersistentFlags().StringVarP(&Scheme, "scheme", "s", "http", "http scheme to user")
+	goxld.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "verbose output")
+	goxld.PersistentFlags().BoolVar(&quiet, "quiet", false, "run in quiet mode")
+
 	viper.BindPFlag("port", goxld.PersistentFlags().Lookup("port"))
 	viper.BindPFlag("host", goxld.PersistentFlags().Lookup("host"))
 	viper.BindPFlag("context", goxld.PersistentFlags().Lookup("context"))
@@ -71,11 +85,16 @@ func init() {
 	viper.BindPFlag("scheme", goxld.PersistentFlags().Lookup("scheme"))
 
 }
+
 func main() {
 	// initialze config
-	initializeConfig()
+	//initializeConfig()
 
 	goxld.Execute()
+
+	if jww.LogCountForLevelsGreaterThanorEqualTo(jww.LevelError) > 0 {
+		os.Exit(-1)
+	}
 }
 
 //initialize the viper config
@@ -95,6 +114,12 @@ func initializeConfig() {
 	if err != nil {
 		viper.Debug()
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	}
+
+	if quiet {
+		jww.SetStdoutThreshold(jww.LevelError)
+	} else if verbose {
+		jww.SetStdoutThreshold(jww.LevelDebug)
 	}
 
 }
