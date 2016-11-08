@@ -6,18 +6,17 @@ import (
 	jww "github.com/spf13/jwalterweatherman"
 )
 
-var writeLong = `add a user in the XL-Deploy repository
+var addUserLong = `add a user in the XL-Deploy repository
 example: user add --password changeme -a newuser
 `
 
-var flagPassWord string
 var flagAdmin bool
 
 func addUser() {
 	cmd := &cobra.Command{
 		Use:   "add",
 		Short: "add or manipulate a user in XL-Deploy",
-		Long:  writeLong,
+		Long:  addUserLong,
 		Run:   runUser,
 	}
 

@@ -2,24 +2,24 @@ language: go
 matrix:
   include:
   - go: 1.7
-
 install:
-  - make install
-
+- make install
 before_deploy:
-  - make release
-
+- make release
 deploy:
   provider: releases
   api_key:
     secure: sZ7JP2Sm8Nh9d9A2bD42H4lIHa/4y/hSckA1emXIyzvf92/oyQJg5O4IWQ4ligXzmpl0VUEDWyR3VENfEiTXWFGc/BRHEjlMfW5kzTaGwlQUZXnrsnQHLCwm7i+CAdhkPPIDfwR32IhDYenRbnfGSHGXAv1DUHOrSnyU0hPrBsrSufDEWndKbyN9yQrNWGs1T585WAnAig3MYSgqOciHgXDaDNQYNuUj7e6Nyctjbp0njotfYUuCYusN3D5K6Cl7GxTkfm46zjypTYtqZKFL6k/hswMxdoPAFG1BX8OjJF2HlDdsTdn953OPKrkwr7GvNtHCYb/R9Fs2JHno5iv540/qdzGix68GnrzjLt04WfDbKWPE18ir40dAPJ3/6W+9asuqmbxJyE83WjTy3sV5E9qhdnLZxXvvFBz5lIZ1tGAQBFnaQh1iVVTBb42RpYtSM1rst/iiIfQQYUHgupDwEXy0z5U0E9vMdDqPN9F0xhueOpughpiJJclH4JPUiPFbvC4UPJIyaFS3c9Fve2O87LDE0dpcWf6PmXCn7Yex/mmqe2M5qTEuPph5TNNP42BBHEnlAD/hMOeL1OfPkJfTS2gjKd92CIC5tdN9Fd6srgESHUxBMD68h2Njmbxm6bX7CpvkFokmUx6XdoxwEcXAGbPw0xTRUlrVOJdbTCpbN44=
   file:
-    - release/goxld-linux-amd64
-    - release/goxld-linux-386
-    - release/goxld-windows-amd64
-    - release/goxld-windows-386
-    - release/goxld-osx-amd64
+  - release/goxld-linux-amd64
+  - release/goxld-linux-386
+  - release/goxld-windows-amd64
+  - release/goxld-windows-386
+  - release/goxld-osx-amd64
   skip_cleanup: true
   on:
     tags: true
     repo: WianVos/goxld
+env:
+  global:
+    secure: yXOvTnmUPxvahLMjnf2dzhL24oTdCskPO8jqiNINFiy3G+gkIY4NPo2w0hSe9762OhzvBAgmBgXRXj08EpsfSZJ1RGHtwZPMeqNh3mKwffdcx9HKIhwwbE+gVr0XU4BX3qQyDTn8vsrtDJaRg6tE2Z/4Q+YCzbXKMJLSELqpxG/hFctV+0o7GzFgwjN4nxknyYwiI2Mn1EH3SHCrvU4BYlboMCWW6T4OkMhtGsWOa2HU+vRxaaEbkw6ouDXjbKg//MpYUodV47r5LgNG06TUG/y5aRWpJDhsKwAwttzO+pj7JfNluU458jOoZfBDTzINEmrZ1hiyl2r1SpxXsHb+lij/Qet910MZSrUkYOJIItBO/JyaHCo+jDfDdTzR4eRf4tH+2l5j5GYoRiHqYsLzBIveUsvhGXY8ZO/xy7OXpQ+pNy0Jnb8ne90iDCtKQDSaPY0aADSo0ekR022a96euESUupdI9FcEJgTXTW/H3VtTEcDIKxvUcUhpGRRuaFHPxy98HxUSgWjPLqm2BhQf2k8QhryKeVXZqWjL8ovvfCLwT4+wgsvP7J3k7eUkpbEW9sMmFmmhbZjghRo3CINA8+OYsfKob23cnWsW+3zhrixTGRxZgbO/j9fNiYpf9WM11yQe0o7hjyEvKzF14zfJiUcKLpZj9XeUm3j6CjXdIT44=

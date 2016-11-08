@@ -5,6 +5,7 @@ import "github.com/spf13/cobra"
 // flag variables
 
 var flagOutFile string
+var flagPassWord string
 
 //
 var secCmd = &cobra.Command{
@@ -17,5 +18,7 @@ func GetUserCommands() *cobra.Command {
 
 	//collect the commands in the package
 	addUser()
+	addPassword()
+
 	return secCmd
 }
